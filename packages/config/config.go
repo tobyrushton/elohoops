@@ -6,7 +6,8 @@ import (
 )
 
 type Config struct {
-	DATABASE_URL string `envconfig:"DATABASE_URL"`
+	DATABASE_URL          string `envconfig:"DATABASE_URL"`
+	BALL_DONT_LIE_API_KEY string `envconfig:"BALL_DONT_LIE_API_KEY"`
 }
 
 func loadConfig() (*Config, error) {
