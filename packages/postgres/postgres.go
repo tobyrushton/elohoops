@@ -7,6 +7,7 @@ import (
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/extra/bundebug"
 )
 
 type Config struct {
@@ -21,6 +22,8 @@ func NewDB(c *Config) (*bun.DB, error) {
 	sqldb := stdlib.OpenDB(*config)
 
 	db := bun.NewDB(sqldb, pgdialect.New())
+
+	db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(true)))
 
 	return db, nil
 }
