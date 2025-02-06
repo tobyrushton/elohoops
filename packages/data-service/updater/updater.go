@@ -1,4 +1,4 @@
-package data
+package updater
 
 import (
 	"context"
@@ -6,9 +6,9 @@ import (
 	"log"
 	"math"
 
-	"github.com/tobyrushton/elohoops/packages/config"
+	"github.com/tobyrushton/elohoops/libs/config"
+	"github.com/tobyrushton/elohoops/packages/data-service/scrape"
 	"github.com/tobyrushton/elohoops/packages/postgres"
-	"github.com/tobyrushton/elohoops/packages/scrape"
 	"github.com/uptrace/bun"
 )
 
@@ -21,23 +21,23 @@ type Player struct {
 	Active    bool   `bun:"active,default:true"`
 }
 
-type DataHandler struct {
+type DataUpdater struct {
 	db *bun.DB
 }
 
-func New() *DataHandler {
+func New() *DataUpdater {
 	cfg := config.MustLoadConfig()
 	db, err := postgres.NewDB(&postgres.Config{Url: cfg.DATABASE_URL})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return &DataHandler{
+	return &DataUpdater{
 		db: db,
 	}
 }
 
-func (dh *DataHandler) UpdateData() error {
+func (du *DataUpdater) UpdateData() error {
 	players := scrape.New().Scrape()
 
 	// make list of ids
@@ -47,7 +47,7 @@ func (dh *DataHandler) UpdateData() error {
 	}
 
 	// check what players are not in db (if any)
-	playersNotInDBIds, err := dh.getPlayersNotInDb(playerIds)
+	playersNotInDBIds, err := du.getPlayersNotInDb(playerIds)
 
 	if err != nil {
 		return err
@@ -66,17 +66,23 @@ func (dh *DataHandler) UpdateData() error {
 	}
 
 	if len(playersToBeAdded) > 0 {
-		err := dh.addNewPlayersToDb(playersToBeAdded)
+		err := du.addNewPlayersToDb(playersToBeAdded)
 
 		if err != nil {
 			return err
 		}
 	}
 
+	err = du.setPlayersUnactive(playerIds)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func (dh *DataHandler) getPlayersNotInDb(playerIds []int) ([]int, error) {
+func (du *DataUpdater) getPlayersNotInDb(playerIds []int) ([]int, error) {
 	// check what players are not in db (if any)
 	playersNotInDBIds := make([]int, 0)
 
@@ -94,7 +100,7 @@ func (dh *DataHandler) getPlayersNotInDb(playerIds []int) ([]int, error) {
 		fmt.Println(len(ids), len(playerIds))
 
 		tempIds := make([]int, 0)
-		err := dh.db.NewRaw("SELECT player_id FROM unnest(array[?]) AS player_id WHERE player_id NOT IN (SELECT id FROM players)",
+		err := du.db.NewRaw("SELECT player_id FROM unnest(array[?]) AS player_id WHERE player_id NOT IN (SELECT id FROM players)",
 			bun.In(ids),
 		).
 			Scan(context.Background(), &tempIds)
@@ -111,7 +117,7 @@ func (dh *DataHandler) getPlayersNotInDb(playerIds []int) ([]int, error) {
 	return playersNotInDBIds, nil
 }
 
-func (dh *DataHandler) addNewPlayersToDb(players []scrape.Player) error {
+func (du *DataUpdater) addNewPlayersToDb(players []scrape.Player) error {
 	playersInDbFormat := make([]Player, len(players))
 
 	for i, player := range players {
@@ -123,7 +129,18 @@ func (dh *DataHandler) addNewPlayersToDb(players []scrape.Player) error {
 			Rating:    1500,
 		}
 	}
-	_, err := dh.db.NewInsert().Model(&playersInDbFormat).Exec(context.Background())
+	_, err := du.db.NewInsert().Model(&playersInDbFormat).Exec(context.Background())
+
+	return err
+}
+
+func (du *DataUpdater) setPlayersUnactive(playerIDs []int) error {
+	_, err := du.db.NewUpdate().
+		Model((*Player)(nil)).
+		Set("active = ?", false).
+		Where("id NOT IN (?)", bun.In(playerIDs)).
+		Where("active = ?", true).
+		Exec(context.Background())
 
 	return err
 }
