@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tobyrushton/elohoops/packages/config"
+	"github.com/tobyrushton/elohoops/libs/config"
 )
 
 type BDLData struct {

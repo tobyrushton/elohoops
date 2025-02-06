@@ -3,7 +3,7 @@ package scrape_test
 import (
 	"testing"
 
-	"github.com/tobyrushton/elohoops/packages/scrape"
+	"github.com/tobyrushton/elohoops/packages/data-service/scrape"
 )
 
 func TestBDLScrape(t *testing.T) {

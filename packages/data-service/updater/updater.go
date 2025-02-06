@@ -7,8 +7,8 @@ import (
 	"math"
 
 	"github.com/tobyrushton/elohoops/libs/config"
+	"github.com/tobyrushton/elohoops/libs/db/postgres"
 	"github.com/tobyrushton/elohoops/packages/data-service/scrape"
-	"github.com/tobyrushton/elohoops/packages/postgres"
 	"github.com/uptrace/bun"
 )
 

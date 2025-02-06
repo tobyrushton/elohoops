@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/joho/godotenv"
-	"github.com/tobyrushton/elohoops/packages/scrape"
+	"github.com/tobyrushton/elohoops/packages/data-service/scrape"
 )
 
 func TestMain(m *testing.M) {
