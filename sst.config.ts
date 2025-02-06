@@ -10,6 +10,7 @@ export default $config({
     }
   },
   async run() {
+    await import("./infra/data-service")
     return {}
   },
 })

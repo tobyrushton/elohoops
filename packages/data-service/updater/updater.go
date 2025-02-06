@@ -7,19 +7,11 @@ import (
 	"math"
 
 	"github.com/tobyrushton/elohoops/libs/config"
+	"github.com/tobyrushton/elohoops/libs/db/models"
 	"github.com/tobyrushton/elohoops/libs/db/postgres"
 	"github.com/tobyrushton/elohoops/packages/data-service/scrape"
 	"github.com/uptrace/bun"
 )
-
-type Player struct {
-	ID        int    `bun:"id,pk,autoincrement"`
-	FirstName string `bun:"first_name"`
-	LastName  string `bun:"last_name"`
-	NBAID     int    `bun:"nba_id"`
-	Rating    int    `bun:"rating"`
-	Active    bool   `bun:"active,default:true"`
-}
 
 type DataUpdater struct {
 	db *bun.DB
@@ -118,10 +110,10 @@ func (du *DataUpdater) getPlayersNotInDb(playerIds []int) ([]int, error) {
 }
 
 func (du *DataUpdater) addNewPlayersToDb(players []scrape.Player) error {
-	playersInDbFormat := make([]Player, len(players))
+	playersInDbFormat := make([]models.Player, len(players))
 
 	for i, player := range players {
-		playersInDbFormat[i] = Player{
+		playersInDbFormat[i] = models.Player{
 			FirstName: player.FirstName,
 			LastName:  player.LastName,
 			ID:        player.Id,
@@ -136,7 +128,7 @@ func (du *DataUpdater) addNewPlayersToDb(players []scrape.Player) error {
 
 func (du *DataUpdater) setPlayersUnactive(playerIDs []int) error {
 	_, err := du.db.NewUpdate().
-		Model((*Player)(nil)).
+		Model((*models.Player)(nil)).
 		Set("active = ?", false).
 		Where("id NOT IN (?)", bun.In(playerIDs)).
 		Where("active = ?", true).

@@ -3,6 +3,7 @@ module github.com/tobyrushton/elohoops/packages/data-service
 go 1.23.5
 
 require (
+	github.com/aws/aws-lambda-go v1.47.0
 	github.com/gocolly/colly v1.2.0
 	github.com/joho/godotenv v1.5.1
 	github.com/tobyrushton/elohoops/libs/config v0.0.0-00010101000000-000000000000
