@@ -7,15 +7,16 @@ import (
 	"os"
 	"strings"
 
+	"github.com/tobyrushton/elohoops/libs/config"
+	"github.com/tobyrushton/elohoops/libs/db/postgres"
 	"github.com/tobyrushton/elohoops/migrations"
-	"github.com/tobyrushton/elohoops/packages/config"
-	"github.com/tobyrushton/elohoops/packages/postgres"
 	"github.com/uptrace/bun/migrate"
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
 	cfg := config.MustLoadConfig()
+	fmt.Println(cfg)
 	db, err := postgres.NewDB(&postgres.Config{Url: cfg.DATABASE_URL})
 	if err != nil {
 		log.Fatal(err)
