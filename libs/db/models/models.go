@@ -19,3 +19,12 @@ type Match struct {
 	Player1   *Player   `bun:"rel:belongs-to,join:player1=id"`
 	Player2   *Player   `bun:"rel:belongs-to,join:player2=id"`
 }
+
+type Result struct {
+	ID        int     `bun:"id,pk,autoincrement"`
+	Player1ID int     `bun:"player1"`
+	Player2ID int     `bun:"player2"`
+	Result    int     `bun:"result"`
+	Player1   *Player `bun:"rel:belongs-to,join:player1=id"`
+	Player2   *Player `bun:"rel:belongs-to,join:player2=id"`
+}
