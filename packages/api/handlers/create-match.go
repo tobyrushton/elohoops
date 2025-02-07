@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/render"
+	"github.com/tobyrushton/elohoops/libs/db/models"
 	"github.com/tobyrushton/elohoops/packages/api/matchmaker"
 )
 
@@ -23,5 +24,7 @@ func (h *CreateMatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.JSON(w, r, match)
+	render.JSON(w, r, Response[models.Match, interface{}]{
+		Data: match,
+	})
 }

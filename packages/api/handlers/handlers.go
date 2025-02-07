@@ -1,6 +1,11 @@
 package handlers
 
-type Response struct {
-	Message string
-	Code    int
+type Response[DT any, MT any] struct {
+	Data DT
+	Meta MT
+}
+
+type PaginationMeta struct {
+	CurrentPage int
+	TotalPages  int
 }

@@ -4,10 +4,13 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/tobyrushton/elohoops/packages/api/matchmaker"
 )
+
+type Res struct {
+	Message string
+}
 
 type ResultMatchHandler struct{}
 
@@ -16,12 +19,12 @@ func NewResultMatchHandler() *ResultMatchHandler {
 }
 
 func (h *ResultMatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	matchID, err := strconv.Atoi(chi.URLParam(r, "matchID"))
+	matchID, err := strconv.Atoi(r.URL.Query().Get("matchID"))
 	if matchID == 0 || err != nil {
 		http.Error(w, "no match id given", http.StatusBadRequest)
 		return
 	}
-	result, err := strconv.Atoi(chi.URLParam(r, "result"))
+	result, err := strconv.Atoi(r.URL.Query().Get("result"))
 	if !(result == 1 || result == 2) || err != nil {
 		http.Error(w, "invalud result", http.StatusBadRequest)
 		return
@@ -35,8 +38,9 @@ func (h *ResultMatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.JSON(w, r, Response{
-		Message: "successfully updated",
-		Code:    http.StatusOK,
+	render.JSON(w, r, Response[Res, interface{}]{
+		Data: Res{
+			Message: "Success",
+		},
 	})
 }
