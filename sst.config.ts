@@ -12,6 +12,7 @@ export default $config({
   async run() {
     await import("./infra/data-service")
     await import("./infra/api")
+    await import("./infra/next")
     return {}
   },
 })
