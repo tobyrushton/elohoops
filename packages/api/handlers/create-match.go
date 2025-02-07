@@ -1,6 +1,11 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/go-chi/render"
+	"github.com/tobyrushton/elohoops/packages/api/matchmaker"
+)
 
 type CreateMatchHandler struct{}
 
@@ -9,7 +14,14 @@ func NewCreateMatchHandler() *CreateMatchHandler {
 }
 
 func (h *CreateMatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// here we need to get a match and then create an entry in the db for that match, then return the 2 players
-	// players should be match based upon having a 'close' rating
+	mm := matchmaker.New()
 
+	match, err := mm.CreateMatch()
+
+	if err != nil {
+		http.Error(w, "Could not create match", http.StatusBadRequest)
+		return
+	}
+
+	render.JSON(w, r, match)
 }

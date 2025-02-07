@@ -4,6 +4,7 @@ go 1.23.5
 
 require (
 	github.com/go-chi/chi/v5 v5.2.1
+	github.com/go-chi/render v1.0.3
 	github.com/joho/godotenv v1.5.1
 	github.com/tobyrushton/elohoops/libs/config v0.0.0-00010101000000-000000000000
 	github.com/tobyrushton/elohoops/libs/db v0.0.0-00010101000000-000000000000
@@ -11,6 +12,9 @@ require (
 )
 
 require (
+	github.com/ajg/form v1.5.1 // indirect
+	github.com/aws/aws-lambda-go v1.47.0 // indirect
+	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
