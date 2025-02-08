@@ -11,6 +11,7 @@ export type LeaderboardResponse = {
     Data: Player[],
     Meta: {
         CurrentPage: number,
-        TotalPages: number
+        TotalPages: number,
+        PerPage: number
     }
 }

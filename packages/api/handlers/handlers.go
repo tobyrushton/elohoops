@@ -8,4 +8,5 @@ type Response[DT any, MT any] struct {
 type PaginationMeta struct {
 	CurrentPage int
 	TotalPages  int
+	PerPage     int
 }

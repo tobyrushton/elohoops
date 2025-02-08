@@ -73,6 +73,7 @@ func (h *LeaderboardHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Meta: PaginationMeta{
 			CurrentPage: currentPage,
 			TotalPages:  totalPages,
+			PerPage:     perPage,
 		},
 	})
 }
