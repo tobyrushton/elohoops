@@ -19,7 +19,7 @@ const NavItem: FC<PropsWithChildren<{ href: string }>> = ({ href, children }) =>
 export const Navbar: FC = () => {
     return (
         <NavigationMenu className="p-2 flex gap-1 h-10 items-center">
-            <Logo />
+            <Logo height={30} width={150} />
             <Separator orientation="vertical" />
             <NavigationMenuList>
                 <NavItem href="/">

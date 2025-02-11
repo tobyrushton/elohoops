@@ -1,10 +1,8 @@
 import { FC } from "react"
+import Image from "next/image"
 
-export const Logo: FC = () => {
+export const Logo: FC<{ width: number, height: number}> = ({ width, height }) => {
     return (
-        <h1 className="flex font-bold">
-            elo
-            <p className="text-orange-600">hoops</p>
-        </h1>
+        <Image src='logo.svg' width={width} height={height} alt="logo" />
     )
 }
