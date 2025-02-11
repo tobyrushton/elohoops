@@ -15,3 +15,16 @@ export type LeaderboardResponse = {
         PerPage: number
     }
 }
+
+export type Match = {
+    ID: number,
+    Player1ID: number,
+    Player2ID: number,
+    Result: number,
+    Player1: Player,
+    Player2: Player
+}
+
+export type CreateMatchResponse = {
+    Data: Match
+}

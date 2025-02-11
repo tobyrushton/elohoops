@@ -25,6 +25,9 @@ export const Navbar: FC = () => {
                 <NavItem href="/">
                     Home
                 </NavItem>
+                <NavItem href="/vote">
+                    Vote
+                </NavItem>
                 <NavItem href="/leaderboard">
                     Leaderboard
                 </NavItem>
