@@ -9,6 +9,7 @@ require (
 	github.com/tobyrushton/elohoops/libs/config v0.0.0-00010101000000-000000000000
 	github.com/tobyrushton/elohoops/libs/db v0.0.0-00010101000000-000000000000
 	github.com/uptrace/bun v1.2.9
+	golang.org/x/text v0.21.0
 )
 
 require (
@@ -42,7 +43,6 @@ require (
 	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.36.4 // indirect
 )

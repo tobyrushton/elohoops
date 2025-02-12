@@ -2,6 +2,9 @@ package scrape
 
 import (
 	"sort"
+	"unicode"
+
+	"golang.org/x/text/unicode/norm"
 )
 
 type Player struct {
@@ -40,8 +43,8 @@ func (s *Scraper) Scrape() []Player {
 	data := make([]Player, 0)
 	i, j := 0, 0
 	for i < len(webData) && j < len(bdlData) {
-		if webData[i].FirstName == bdlData[j].FirstName {
-			if webData[i].LastName == bdlData[j].LastName {
+		if s.removeAccentsFromName(webData[i].FirstName) == s.removeAccentsFromName(bdlData[j].FirstName) {
+			if s.removeAccentsFromName(webData[i].LastName) == s.removeAccentsFromName(bdlData[j].LastName) {
 				data = append(data, Player{
 					Id:        bdlData[j].Id,
 					FirstName: bdlData[j].FirstName,
@@ -63,4 +66,16 @@ func (s *Scraper) Scrape() []Player {
 	}
 
 	return data
+}
+
+func (s *Scraper) removeAccentsFromName(name string) string {
+	nfd := norm.NFD.String(name)
+
+	var res []rune
+	for _, r := range nfd {
+		if !unicode.Is(unicode.Mn, r) {
+			res = append(res, r)
+		}
+	}
+	return string(res)
 }
