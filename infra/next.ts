@@ -6,5 +6,6 @@ export const next = new sst.aws.Nextjs("Frontend", {
     environment: {
         BALL_DONT_LIE_API_KEY: process.env.BALL_DONT_LIE_API_KEY,
         NEXT_PUBLIC_API_URL: api.url
-    }
+    },
+    domain: process.env.PULUMI_NODEJS_STACK === "prod" ? "elohoops.com" : undefined
 })

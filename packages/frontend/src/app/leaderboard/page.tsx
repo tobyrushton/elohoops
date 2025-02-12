@@ -23,7 +23,6 @@ const Leaderboard: FC<{
     for (let i = end-2; i <= end; i++) {
         pageNumbers.push(i)
     }
-    console.log(res.Meta)
 
     return (
         <Card className="flex-grow max-w-4xl">

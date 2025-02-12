@@ -8,7 +8,7 @@ import { Table, TableBody } from "@/components/ui/table"
 import { VoteButtons } from "@/components/vote-button"
 
 const Vote: FC = async () => {
-    const res = await fetch(Resource.GoApi.url + "/create-match", { method: "POST" })
+    const res = await fetch(Resource.GoApi.url + "/create-match", { method: "POST", cache: "no-store" })
     const data = await res.json() as CreateMatchResponse
     const match = data.Data
 
@@ -35,7 +35,7 @@ const Vote: FC = async () => {
             <Card>
                 <CardHeader>
                     <CardTitle className="text-center">
-                        Player stats
+                        2024-25 Season Stats
                     </CardTitle>
                 </CardHeader>
                 <CardContent>

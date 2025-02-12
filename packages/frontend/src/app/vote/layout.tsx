@@ -1,4 +1,10 @@
 import { FC, PropsWithChildren } from "react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Vote",
+    description: "Who's the better player? Vote now."
+}
 
 const VoteLayout: FC<PropsWithChildren> = ({ children }) => {
     return (
