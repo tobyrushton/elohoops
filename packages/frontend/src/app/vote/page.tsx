@@ -27,37 +27,35 @@ const Vote: FC = async () => {
     const [player1Stats, player2Stats] = [player1Data.data[0], player2Data.data[0]] 
 
     return (
-        <div className="flex w-full grow items-center justify-center">
-            <div className="flex flex-col gap-5 p-2">
-                <div className="flex gap-2">
-                    <PlayerHead player={match.Player1} />
-                    <PlayerHead player={match.Player2} />
-                </div>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-center">
-                            Player stats
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <Table>
-                            <TableBody className="text-center">
-                                <PlayerStatRow title="GP" val1={player1Stats.games_played} val2={player2Stats.games_played} />
-                                <PlayerStatRow title="PTS/G" val1={player1Stats.pts} val2={player2Stats.pts} />
-                                <PlayerStatRow title="REB/G" val1={player1Stats.reb} val2={player2Stats.reb} />
-                                <PlayerStatRow title="AST/G" val1={player1Stats.ast} val2={player2Stats.ast} />
-                                <PlayerStatRow title="STL/G" val1={player1Stats.stl} val2={player2Stats.stl} />
-                                <PlayerStatRow title="BLK/G" val1={player1Stats.blk} val2={player2Stats.blk} />
-                                <PlayerStatRow title="FG%" val1={player1Stats.fg_pct*100} val2={player2Stats.fg_pct*100} />
-                                <PlayerStatRow title="3P%" val1={player1Stats.fg3_pct*100} val2={player2Stats.fg3_pct*100} />
-                                <PlayerStatRow title="FT%" val1={player1Stats.ft_pct*100} val2={player2Stats.ft_pct*100} />
-                            </TableBody>
-                        </Table>
-                    </CardContent>
-                </Card>
-                <VoteButtons matchID={match.ID} />
+        <>
+            <div className="flex gap-2">
+                <PlayerHead player={match.Player1} />
+                <PlayerHead player={match.Player2} />
             </div>
-        </div>
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-center">
+                        Player stats
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableBody className="text-center">
+                            <PlayerStatRow title="GP" val1={player1Stats?.games_played ?? 0} val2={player2Stats?.games_played ?? 0} />
+                            <PlayerStatRow title="PTS/G" val1={player1Stats?.pts ?? 0} val2={player2Stats?.pts ?? 0} />
+                            <PlayerStatRow title="REB/G" val1={player1Stats?.reb ?? 0} val2={player2Stats?.reb ?? 0} />
+                            <PlayerStatRow title="AST/G" val1={player1Stats?.ast ?? 0} val2={player2Stats?.ast ?? 0} />
+                            <PlayerStatRow title="STL/G" val1={player1Stats?.stl ?? 0} val2={player2Stats?.stl ?? 0} />
+                            <PlayerStatRow title="BLK/G" val1={player1Stats?.blk ?? 0} val2={player2Stats?.blk ?? 0} />
+                            <PlayerStatRow title="FG%" val1={(player1Stats?.fg_pct ?? 0)*100} val2={(player2Stats?.fg_pct ?? 0)*100} />
+                            <PlayerStatRow title="3P%" val1={(player1Stats?.fg3_pct ?? 0)*100} val2={(player2Stats?.fg3_pct ?? 0)*100} />
+                            <PlayerStatRow title="FT%" val1={(player1Stats?.ft_pct ?? 0)*100} val2={(player2Stats?.ft_pct ?? 0)*100} />
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+            <VoteButtons matchID={match.ID} />
+        </>
     )
 }
 

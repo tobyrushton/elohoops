@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar"
 import "./globals.css"
 import { Separator } from "@/components/ui/separator"
 import { QueryClientProvider } from "@/components/query-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ const RootLayout = ({
         <QueryClientProvider>
           {children}
         </QueryClientProvider>
+        <Toaster />
       </body>
     </html>
   )

@@ -19,7 +19,7 @@ export const PlayerHead: FC<PlayerHeadProps> = ({ player }) => {
                     alt={`${player.FirstName} ${player.LastName} headshot`}
                 />
             </Avatar>
-            <h2 className="text-xl font-bold">
+            <h2 className="text-xl font-bold text-center">
                 {player.FirstName} {player.LastName}
             </h2>
         </div>
