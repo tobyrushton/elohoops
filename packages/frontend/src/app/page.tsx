@@ -42,16 +42,23 @@ const Home: FC = async () => {
                 <div className="flex gap-2 w-fit sm:w-full flex-col sm:flex-row">
                     {
                         data.Data.map((player, index) => (
-                            <Card className="flex flex-col grow" key={player.NBAID}>
+                            <Card className="flex flex-col flex-1" key={player.NBAID}>
                                 <CardHeader>
-                                    <CardTitle className="flex gap-2 items-center text-center w-full">
-                                        <Trophy className={trophyColors[index+1]} /> 
-                                        <p className="text-center w-full">
+                                    <CardTitle className="flex gap-2 items-center w-full">
+                                        <Trophy className={trophyColors[index+1]} />
+                                        <Image
+                                            className="sm:hidden"                                   
+                                            src={`https://cdn.nba.com/headshots/nba/latest/260x190/${player.NBAID}.png`}
+                                            width={32}
+                                            height={32}
+                                            alt={`${player.FirstName} ${player.LastName} headshot`} 
+                                        />
+                                        <p className="text-left sm:text-center w-full">
                                             {player.FirstName} {player.LastName}
                                         </p>
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="flex justify-center">
+                                <CardContent className="hidden sm:flex justify-center">
                                     <Image
                                         src={`https://cdn.nba.com/headshots/nba/latest/260x190/${player.NBAID}.png`}
                                         width={128}
