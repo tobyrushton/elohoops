@@ -33,11 +33,13 @@ export type PlayerStatRowProps = {
 }
 
 export const PlayerStatRow: FC<PlayerStatRowProps> = ({ title, val1, val2 }) => {
+    const rounded1 = Math.round((val1 + Number.EPSILON) * 100) / 100
+    const rounded2 = Math.round((val2 + Number.EPSILON) * 100) / 100
     return (
         <TableRow>
-            <TableCell className={cn({ 'bg-green-100': val1 >= val2 })}>{val1}</TableCell>
+            <TableCell className={cn({ 'bg-green-100': rounded1 >= rounded2 })}>{rounded1}</TableCell>
             <TableCell className="font-bold">{title}</TableCell>
-            <TableCell className={cn({ 'bg-green-100': val2 >= val1 })}>{val2}</TableCell>
+            <TableCell className={cn({ 'bg-green-100': rounded2 >= rounded1 })}>{rounded2}</TableCell>
         </TableRow>
     )
 }

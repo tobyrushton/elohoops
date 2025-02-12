@@ -5,6 +5,7 @@ import { BalldontlieAPI } from "@balldontlie/sdk"
 import { PlayerHead, PlayerStatRow } from "@/components/player"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody } from "@/components/ui/table"
+import { VoteButtons } from "@/components/vote-button"
 
 const Vote: FC = async () => {
     const res = await fetch(Resource.GoApi.url + "/create-match", { method: "POST" })
@@ -24,10 +25,6 @@ const Vote: FC = async () => {
     ])
 
     const [player1Stats, player2Stats] = [player1Data.data[0], player2Data.data[0]] 
-    
-    console.log(match)
-    console.log(player1Stats)
-    console.log(player2Stats)
 
     return (
         <div className="flex w-full grow items-center justify-center">
@@ -58,6 +55,7 @@ const Vote: FC = async () => {
                         </Table>
                     </CardContent>
                 </Card>
+                <VoteButtons matchID={match.ID} />
             </div>
         </div>
     )
