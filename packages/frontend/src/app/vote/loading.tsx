@@ -12,8 +12,8 @@ const LoadingVote: FC = () => {
                 {
                     new Array(2).fill(0).map((_, i) => (
                         <div className="flex flex-col gap-2 items-center" key={i}>
-                            <Skeleton className="size-48 rounded-full" />
-                            <Skeleton className="h-[2rem] w-[12rem]" />
+                            <Skeleton className="size-40 sm:size-60 rounded-full" />
+                            <Skeleton className="h-[2rem] w-40 sm:w-60" />
                         </div>
                     ))
                 }

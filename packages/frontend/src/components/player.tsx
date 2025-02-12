@@ -1,8 +1,8 @@
 import { FC } from "react"
-import { Avatar, AvatarImage } from "./ui/avatar"
 import { Player as TPlayer } from "@/lib/types"
 import { TableCell, TableRow } from "./ui/table"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 export type PlayerHeadProps = {
     player: TPlayer
@@ -11,14 +11,12 @@ export type PlayerHeadProps = {
 export const PlayerHead: FC<PlayerHeadProps> = ({ player }) => {
     return (
         <div className="flex flex-col gap-2 items-center">
-            <Avatar className="size-48">
-                <AvatarImage 
-                    src={`https://cdn.nba.com/headshots/nba/latest/260x190/${player.NBAID}.png`} 
-                    width={32} 
-                    height={32} 
-                    alt={`${player.FirstName} ${player.LastName} headshot`}
-                />
-            </Avatar>
+            <Image 
+                src={`https://cdn.nba.com/headshots/nba/latest/260x190/${player.NBAID}.png`} 
+                width={256} 
+                height={256} 
+                alt={`${player.FirstName} ${player.LastName} headshot`}
+            />
             <h2 className="text-xl font-bold text-center">
                 {player.FirstName} {player.LastName}
             </h2>
