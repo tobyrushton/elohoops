@@ -18,11 +18,12 @@ const Leaderboard: FC<{
 
     const pageNumbers = []
     let end = res.Meta.CurrentPage + 1
-    if (end >= res.Meta.TotalPages) end--
+    if (end > res.Meta.TotalPages) end--
     else if (end < 3) end++
     for (let i = end-2; i <= end; i++) {
         pageNumbers.push(i)
     }
+    console.log(res.Meta)
 
     return (
         <Card className="flex-grow max-w-4xl">
