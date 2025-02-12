@@ -1,24 +1,39 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter, TableCaption } from "@/components/ui/table"
 import { LeaderboardResponse } from "@/lib/types"
 import { FC } from "react"
 import { Resource } from "sst"
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Pagination, PaginationContent, PaginationPrevious, PaginationItem, PaginationNext, PaginationLink, PaginationEllipsis } from "@/components/ui/pagination"
-import { SearchParams } from "next/dist/server/request/search-params"
+
+// regenerate every hour
+export const revalidate = 60 * 60 
+
+export const generateStaticParams = async (): Promise<{ number: string }[]> => {
+    const res = await fetch(Resource.GoApi.url + "/leaderboard")
+    const data = await res.json() as LeaderboardResponse
+
+    const pages: { number: string }[] = []
+
+    for (let i = 1; i <= data.Meta.TotalPages; i++) {
+        pages.push({ number: String(i) })
+    }
+
+    return pages
+}
 
 const Leaderboard: FC<{
-    searchParams: Promise<SearchParams>
-}> = async ({ searchParams }) => {
-    const params = await searchParams
+    params: Promise<{ number: string }>
+}> = async ({ params }) => {
+    const pageNumber = (await params).number
 
-    const data = await fetch(Resource.GoApi.url + "/leaderboard" + (params["page"] ? `?page=${params["page"]}`:""))
+    const res = await fetch(Resource.GoApi.url + `/leaderboard?page=${pageNumber}`)
 
-    const res = await data.json() as unknown as LeaderboardResponse
+    const data = await res.json() as unknown as LeaderboardResponse
 
     const pageNumbers = []
-    let end = res.Meta.CurrentPage + 1
-    if (end > res.Meta.TotalPages) end--
+    let end = data.Meta.CurrentPage + 1
+    if (end > data.Meta.TotalPages) end--
     else if (end < 3) end++
     for (let i = end-2; i <= end; i++) {
         pageNumbers.push(i)
@@ -31,8 +46,11 @@ const Leaderboard: FC<{
                     Player Rating Leaderboard
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-2">
                 <Table>
+                    <TableCaption>
+                        Leaderboard updated every hour.
+                    </TableCaption>
                     <TableHeader>
                         <TableRow>
                             <TableHead>Rank</TableHead>
@@ -41,10 +59,10 @@ const Leaderboard: FC<{
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {res.Data.map((player, index) => (
+                        {data.Data.map((player, index) => (
                             <TableRow key={player.NBAID}>
                                 <TableCell>
-                                    {((res.Meta.CurrentPage-1)*res.Meta.PerPage)+(index+1)}
+                                    {((data.Meta.CurrentPage-1)*data.Meta.PerPage)+(index+1)}
                                 </TableCell>
                                 <TableCell className="flex gap-2 items-center">
                                     <Image 
@@ -67,14 +85,14 @@ const Leaderboard: FC<{
                         <PaginationItem>
                             <PaginationPrevious 
                                 href={
-                                        res.Meta.CurrentPage === 1 ? 
+                                        data.Meta.CurrentPage === 1 ? 
                                             "/leaderboard" : 
-                                            `/leaderboard?page=${res.Meta.CurrentPage-1}`
+                                            `/leaderboard?page=${data.Meta.CurrentPage-1}`
                                     } 
                             />
                         </PaginationItem>
                         {
-                            res.Meta.CurrentPage > 2 && (
+                            data.Meta.CurrentPage > 2 && (
                                 <PaginationItem>
                                     <PaginationEllipsis />
                                 </PaginationItem>
@@ -82,13 +100,13 @@ const Leaderboard: FC<{
                         }
                         {pageNumbers.map(pageNo => (
                             <PaginationItem key={pageNo}>
-                                <PaginationLink href={`/leaderboard?page=${pageNo}`} isActive={pageNo === res.Meta.CurrentPage}>
+                                <PaginationLink href={`/leaderboard?page=${pageNo}`} isActive={pageNo === data.Meta.CurrentPage}>
                                     {pageNo}
                                 </PaginationLink>
                             </PaginationItem>
                         ))}
                         {
-                            res.Meta.CurrentPage < res.Meta.TotalPages - 1 && (
+                            data.Meta.CurrentPage < data.Meta.TotalPages - 1 && (
                                 <PaginationItem>
                                     <PaginationEllipsis />
                                 </PaginationItem>
@@ -97,9 +115,9 @@ const Leaderboard: FC<{
                         <PaginationItem>
                             <PaginationNext 
                                 href={
-                                    res.Meta.CurrentPage === res.Meta.TotalPages ? 
-                                        `/leaderboard?page=${res.Meta.CurrentPage}` : 
-                                        `/leaderboard?page=${res.Meta.CurrentPage+1}`
+                                    data.Meta.CurrentPage === data.Meta.TotalPages ? 
+                                        `/leaderboard?page=${data.Meta.CurrentPage}` : 
+                                        `/leaderboard?page=${data.Meta.CurrentPage+1}`
                                     } 
                             />
                         </PaginationItem>
