@@ -1,4 +1,4 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter, TableCaption } from "@/components/ui/table"
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableCaption } from "@/components/ui/table"
 import { LeaderboardResponse } from "@/lib/types"
 import { FC } from "react"
 import { Resource } from "sst"
@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Pagination, PaginationContent, PaginationPrevious, PaginationItem, PaginationNext, PaginationLink, PaginationEllipsis } from "@/components/ui/pagination"
 
 // regenerate every hour
-export const revalidate = 60 * 60 
+export const revalidate = 3600
 
 export const generateStaticParams = async (): Promise<{ number: string }[]> => {
     const res = await fetch(Resource.GoApi.url + "/leaderboard")
