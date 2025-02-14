@@ -28,3 +28,12 @@ type Result struct {
 	Player1   *Player `bun:"rel:belongs-to,join:player1=id"`
 	Player2   *Player `bun:"rel:belongs-to,join:player2=id"`
 }
+
+type PlayerRating struct {
+	ID       int       `bun:"id,pk,autoincrement"`
+	PlayerID int       `bun:"player"`
+	Rating   int       `bun:"rating"`
+	Ranking  int       `bun:"ranking"`
+	Day      time.Time `bun:"day,default:current_date"`
+	Player   *Player   `bun:"rel:belongs-to,join:player=id"`
+}
