@@ -25,6 +25,7 @@ func NewRouter() *chi.Mux {
 		r.Put("/result-match", handlers.NewResultMatchHandler().ServeHTTP)
 		r.Get("/leaderboard", handlers.NewLeaderboardHandler().ServeHTTP)
 		r.Get("/players", handlers.NewPlayersHandler().ServeHTTP)
+		r.Get("/player-rating/{playerID}", handlers.NewPlayerRatingsHandler().ServeHTTP)
 	})
 
 	return r
