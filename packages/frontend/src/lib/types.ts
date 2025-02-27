@@ -28,3 +28,20 @@ export type Match = {
 export type CreateMatchResponse = {
     Data: Match
 }
+
+export type GetPlayersResponse = {
+    Data: Player[]
+}
+
+export type PlayerRatings = {
+    ID: number,
+    PlayerID: number,
+    Rating: number,
+    Ranking: number,
+    Day: Date,
+    Player?: Player
+}
+
+export type GetPlayerRatingsResponse = {
+    Data: PlayerRatings[]
+}
