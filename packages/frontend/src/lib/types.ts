@@ -38,7 +38,7 @@ export type PlayerRatings = {
     PlayerID: number,
     Rating: number,
     Ranking: number,
-    Day: Date,
+    Day: string,
     Player?: Player
 }
 

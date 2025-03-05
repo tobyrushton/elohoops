@@ -48,7 +48,7 @@ const Player: FC<PlayerPageProps> = async ({ params }) => {
             </div>
             <Separator />
             <div>
-                <RatingsChart ids={player.ID} />
+                <RatingsChart players={[player]} />
             </div>
         </div>
     )
